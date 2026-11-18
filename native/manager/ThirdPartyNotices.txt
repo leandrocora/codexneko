@@ -1,0 +1,16 @@
+MultiCodex para macOS — interface por Coradini
+
+O aplicativo inclui multi-codex-app v0.2.1, por William Ryan (am-will),
+licenciado sob a licença MIT. A licença integral acompanha este aplicativo
+no arquivo MultiCodex-Backend-LICENSE.txt.
+
+Projeto original: https://github.com/am-will/multi-codex-app
+Executável macOS arm64 obtido da release v0.2.1.
+SHA-256 do pacote original:
+b2e9f3d23ee916f6f08eb7928d112d0de39cc6bef665e2e779f52d5aa5354736
+
+Os ícones dos perfis pertencem ao projeto original. A marca OpenAI presente
+nesses ícones pertence à OpenAI e não é coberta pela licença MIT.
+
+Este é um projeto independente, sem vínculo ou endosso da OpenAI.
+Codex, ChatGPT e OpenAI são marcas de seus respectivos titulares.

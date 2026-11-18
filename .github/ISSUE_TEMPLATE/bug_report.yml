@@ -1,0 +1,27 @@
+name: Relatar um problema
+description: Informe uma falha na interface ou no gerenciamento dos perfis.
+body:
+  - type: markdown
+    attributes:
+      value: Não inclua tokens, senhas, conversas ou arquivos reais de configuração.
+  - type: input
+    id: versions
+    attributes:
+      label: Versões do macOS, MultiCodex e Codex
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Como reproduzir
+      description: Descreva o que você fez e o que aconteceu.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+  - type: textarea
+    id: details
+    attributes:
+      label: Mensagem de erro ou imagem com dados fictícios

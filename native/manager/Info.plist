@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+    <key>CFBundleIdentifier</key><string>com.coradini.multicodex.manager</string>
+    <key>CFBundleName</key><string>MultiCodex</string>
+    <key>CFBundleDisplayName</key><string>MultiCodex</string>
+    <key>CFBundleExecutable</key><string>MultiCodex</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleShortVersionString</key><string>1.0.0</string>
+    <key>CFBundleVersion</key><string>3</string>
+    <key>CFBundleIconFile</key><string>MultiCodex.icns</string>
+    <key>LSMinimumSystemVersion</key><string>13.0</string>
+    <key>NSHighResolutionCapable</key><true/>
+    <key>NSPrincipalClass</key><string>NSApplication</string>
+    <key>NSHumanReadableCopyright</key><string>Interface por Coradini. Gerenciador de perfis por William Ryan, sob licença MIT.</string>
+    <key>CFBundleDevelopmentRegion</key><string>pt_BR</string>
+    <key>LSApplicationCategoryType</key><string>public.app-category.developer-tools</string>
+</dict></plist>
