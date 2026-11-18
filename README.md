@@ -1,15 +1,15 @@
-# MultiCodex para macOS
+# CodexNeko para macOS
 
 **Adicione e abra várias contas do Codex sem usar o Terminal.**
 
 Aplicativo gratuito e de código aberto, com interface em português. Cada
 conta abre uma instância do aplicativo oficial do Codex com seu próprio login.
 
-[Baixar o app e o instalador](https://github.com/leandrocora/multicodex-macos/releases)
+[Baixar o app e o instalador](https://github.com/leandrocora/codexneko/releases)
 · [English](docs/README.en.md)
 · [Como contribuir](CONTRIBUTING.md)
 
-![MultiCodex em modo escuro com gato robô e contas de exemplo](docs/images/interface-preview.png)
+![CodexNeko em modo escuro com gato robô e contas de exemplo](docs/images/interface-preview.png)
 
 > Prévia ilustrativa com contas fictícias. A versão inicial é uma **beta**.
 
@@ -44,12 +44,12 @@ Não é necessário instalar Node, Go ou Swift para usar o app baixado.
 
 ## Instalação
 
-1. Abra a página de [Releases](https://github.com/leandrocora/multicodex-macos/releases).
-2. Baixe **MultiCodex-macOS-Installer.pkg** e abra o instalador. O destino é
-   **Aplicativos → MultiCodex**.
-3. Ou baixe **MultiCodex-macOS-AppleSilicon.zip**, extraia e arraste
-   **MultiCodex.app** para sua pasta de Aplicativos.
-4. Abra o MultiCodex.
+1. Abra a página de [Releases](https://github.com/leandrocora/codexneko/releases).
+2. Baixe **CodexNeko-macOS-Installer.pkg** e abra o instalador. O destino é
+   **Aplicativos → CodexNeko**.
+3. Ou baixe **CodexNeko-macOS-AppleSilicon.zip**, extraia e arraste
+   **CodexNeko.app** para sua pasta de Aplicativos.
+4. Abra o CodexNeko.
 
 Os pacotes atuais usam assinatura local e não são notarizados pela Apple.
 Se o macOS bloquear a primeira abertura, confira a origem do download e use
@@ -60,16 +60,23 @@ essa opção estiver disponível. Não desative as proteções do sistema.
 
 ### Atualizar uma instalação existente
 
-Abra o novo **MultiCodex-macOS-Installer.pkg**. O instalador detecta o app em
-**Aplicativos → MultiCodex**, compara a versão e o número do build e atualiza
+Abra o novo **CodexNeko-macOS-Installer.pkg**. O instalador detecta o app em
+**Aplicativos → CodexNeko**, compara a versão e o número do build e atualiza
 essa mesma instalação. Ele pede para fechar o gerenciador quando necessário.
 Contas, logins, conversas e a escolha do mascote ficam preservados.
 Uma versão mais antiga não substitui uma versão mais nova; reinstalar a mesma
 versão é permitido. A verificação automática se aplica ao instalador `.pkg`.
 
+Se você instalou a versão anterior como **MultiCodex**, use o `.pkg` para
+atualizar para **CodexNeko**. O instalador reconhece os dois nomes e mantém
+as contas e a personalização. Depois de validar a nova cópia instalada,
+guarda o aplicativo antigo em `/Library/Application Support/CodexNeko/Previous Versions/`,
+evitando duas cópias na pasta Aplicativos. Se a validação falhar, o app
+anterior é preservado. O ZIP é destinado a instalações manuais.
+
 ### Escolher o mascote
 
-Use **Personalizar** no rodapé ou **MultiCodex → Personalizar…** (`⌘,`).
+Use **Personalizar** no rodapé ou **CodexNeko → Personalizar…** (`⌘,`).
 O macho usa luz azul; a fêmea usa luz rosa e um pequeno laço metálico.
 Os dois aparecem deitados dormindo ao lado do contador de janelas abertas.
 No Dock, o rosto do gato robô aparece com os olhos vermelhos acesos.
@@ -129,13 +136,13 @@ instaladas. Na primeira compilação, o script baixa a versão fixa `v0.2.1`
 do backend original e verifica os hashes SHA-256 do arquivo e do executável.
 
 ```sh
-git clone https://github.com/leandrocora/multicodex-macos.git
-cd multicodex-macos
+git clone https://github.com/leandrocora/codexneko.git
+cd codexneko
 bash scripts/download-manager-backend.sh
 bash scripts/build-macos-manager.sh
 ```
 
-Resultado: `dist/MultiCodex.app`.
+Resultado: `dist/CodexNeko.app`.
 
 Para gerar ZIP, instalador e checksums:
 
@@ -152,11 +159,12 @@ A compilação executa **19 testes automatizados** do gerenciador. Eles cobrem
 isolamento dos perfis, criação parcial, falhas, nomes inválidos, arquivamento,
 restauração, concorrência e o contrato de leitura com o executável original.
 Os testes usam dados sintéticos e não alteram suas contas reais.
-O empacotamento executa também **9 testes do instalador**, incluindo atualização,
-reinstalação, bloqueio de downgrade e preservação de contas e preferências.
+O empacotamento executa também **22 testes do instalador**, incluindo atualização,
+reinstalação, bloqueio de downgrade, migração do nome anterior e preservação
+de contas e preferências.
 
 ```sh
-dist/MultiCodex.app/Contents/MacOS/MultiCodex --self-test
+dist/CodexNeko.app/Contents/MacOS/CodexNeko --self-test
 ```
 
 O fluxo de login, a abertura gráfica e as conexões de plugins ainda precisam

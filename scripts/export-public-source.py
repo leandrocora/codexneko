@@ -61,7 +61,7 @@ def main():
         args.archive.parent.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(args.archive, "w", zipfile.ZIP_DEFLATED) as archive:
             for path, rel in files:
-                archive.write(path, Path("multicodex-macos") / rel)
+                archive.write(path, Path("codexneko") / rel)
     print(f"Public source validated: {len(files)} files; no account data or local home paths.")
 
 

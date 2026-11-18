@@ -7,7 +7,7 @@ body:
   - type: input
     id: versions
     attributes:
-      label: Versões do macOS, MultiCodex e Codex
+      label: Versões do macOS, CodexNeko e Codex
     validations:
       required: true
   - type: textarea

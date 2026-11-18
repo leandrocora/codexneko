@@ -10,7 +10,7 @@ final class ManagerAppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegat
         NSApp.appearance = NSAppearance(named: .darkAqua)
         buildMenus()
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 780, height: 740), styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
-        window.title = "MultiCodex"
+        window.title = "CodexNeko"
         window.titlebarAppearsTransparent = true
         window.titleVisibility = .hidden
         window.appearance = NSAppearance(named: .darkAqua)
@@ -50,13 +50,13 @@ final class ManagerAppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegat
     func buildMenus() {
         let main = NSMenu()
         let appItem = NSMenuItem()
-        let appMenu = NSMenu(title: "MultiCodex")
-        appMenu.addItem(withTitle: "Sobre o MultiCodex", action: #selector(about), keyEquivalent: "").target = self
+        let appMenu = NSMenu(title: "CodexNeko")
+        appMenu.addItem(withTitle: "Sobre o CodexNeko", action: #selector(about), keyEquivalent: "").target = self
         appMenu.addItem(withTitle: "Personalizar…", action: #selector(customize), keyEquivalent: ",").target = self
         appMenu.addItem(.separator())
-        appMenu.addItem(withTitle: "Ocultar MultiCodex", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
+        appMenu.addItem(withTitle: "Ocultar CodexNeko", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
         appMenu.addItem(.separator())
-        appMenu.addItem(withTitle: "Sair do MultiCodex", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        appMenu.addItem(withTitle: "Sair do CodexNeko", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         appItem.submenu = appMenu
         main.addItem(appItem)
         let accountMenu = NSMenu(title: "Contas")
@@ -88,8 +88,8 @@ final class ManagerAppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegat
     @objc func customize() { if !store.isBusy && store.sheet == nil { store.sheet = .customize } }
     @objc func about() {
         NSApp.orderFrontStandardAboutPanel(options: [
-            .applicationName: "MultiCodex",
-            .applicationVersion: "1.0.0 beta 3",
+            .applicationName: "CodexNeko",
+            .applicationVersion: "1.0.0 beta 4",
             .credits: NSAttributedString(string: "Interface para macOS por Coradini.\nGerenciador de perfis: am-will/multi-codex-app v0.2.1 (MIT).\nProjeto independente, sem vínculo com a OpenAI.")
         ])
     }

@@ -22,9 +22,9 @@ jobs:
         run: bash scripts/package-macos-manager.sh
       - uses: actions/upload-artifact@v4
         with:
-          name: MultiCodex-macOS-AppleSilicon
+          name: CodexNeko-macOS-AppleSilicon
           path: |
-            dist/MultiCodex-macOS-AppleSilicon.zip
-            dist/MultiCodex-macOS-Installer.pkg
+            dist/CodexNeko-macOS-AppleSilicon.zip
+            dist/CodexNeko-macOS-Installer.pkg
             dist/SHA256SUMS.txt
           if-no-files-found: error

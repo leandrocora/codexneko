@@ -90,7 +90,7 @@ enum ManagerError: LocalizedError {
         case .message(let text): return text
         case .command(let output, _):
             if output.contains("operation not permitted") || output.contains("permission denied") {
-                return "O macOS não permitiu concluir esta operação. Abra o MultiCodex normalmente pelo Finder e tente novamente.\n\n" + output
+                return "O macOS não permitiu concluir esta operação. Abra o CodexNeko normalmente pelo Finder e tente novamente.\n\n" + output
             }
             return output.isEmpty ? "Não foi possível concluir a operação. Tente Verificar instalação." : output
         case .timeout: return "A operação demorou mais que o esperado e foi interrompida. A lista será atualizada para mostrar o que já foi criado."

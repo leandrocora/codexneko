@@ -1,8 +1,8 @@
-MultiCodex para macOS — interface por Coradini
+CodexNeko para macOS — interface por Coradini
 
 O aplicativo inclui multi-codex-app v0.2.1, por William Ryan (am-will),
 licenciado sob a licença MIT. A licença integral acompanha este aplicativo
-no arquivo MultiCodex-Backend-LICENSE.txt.
+no arquivo CodexNeko-Backend-LICENSE.txt.
 
 Projeto original: https://github.com/am-will/multi-codex-app
 Executável macOS arm64 obtido da release v0.2.1.

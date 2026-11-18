@@ -88,7 +88,7 @@ final class AccountBackend {
         let installed = root.appendingPathComponent("bin/multi-codex-app").path
         if FileManager.default.isExecutableFile(atPath: installed) { return installed }
         if FileManager.default.isExecutableFile(atPath: bundledCLI) { return bundledCLI }
-        throw ManagerError.message("O gerenciador de perfis não foi encontrado. Abra uma cópia completa do MultiCodex.app.")
+        throw ManagerError.message("O gerenciador de perfis não foi encontrado. Abra uma cópia completa do CodexNeko.app.")
     }
 
     @discardableResult
@@ -133,7 +133,7 @@ final class AccountBackend {
         guard fd >= 0 else { throw ManagerError.message("Não foi possível iniciar a operação. Tente novamente.") }
         defer { close(fd) }
         guard flock(fd, LOCK_EX | LOCK_NB) == 0 else {
-            throw ManagerError.message("Outra janela do MultiCodex está alterando as contas. Aguarde a conclusão e tente novamente.")
+            throw ManagerError.message("Outra janela do CodexNeko está alterando as contas. Aguarde a conclusão e tente novamente.")
         }
         defer { flock(fd, LOCK_UN) }
         return try action()
@@ -226,7 +226,7 @@ final class AccountBackend {
 
     func repair() throws -> MutationOutcome {
         try withMutationLock {
-            guard let config = try loadConfiguration() else { throw ManagerError.message("Adicione uma conta para configurar o MultiCodex.") }
+            guard let config = try loadConfiguration() else { throw ManagerError.message("Adicione uma conta para configurar o CodexNeko.") }
             try command(["setup", "--count", String(max(1, config.profiles.count)), "--app", try installedApp(config), "--no-dock"])
             return MutationOutcome(profileID: nil, notice: nil)
         }

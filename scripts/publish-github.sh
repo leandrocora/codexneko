@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 MANAGER_PUBLISH_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-MANAGER_REPO="${1:-leandrocora/multicodex-macos}"
-MANAGER_TAG="v1.0.0-beta.3"
+MANAGER_REPO="${1:-leandrocora/codexneko}"
+MANAGER_TAG="v1.0.0-beta.4"
 if [[ $# -gt 1 || ! "$MANAGER_REPO" =~ ^[A-Za-z0-9-]+/[A-Za-z0-9._-]+$ ]]; then
   echo 'Uso: bash scripts/publish-github.sh [usuario/repositorio]' >&2
   exit 1
@@ -24,7 +24,7 @@ git -C "$MANAGER_PUBLISH_STAGE" init -b main
 git -C "$MANAGER_PUBLISH_STAGE" add .
 git -C "$MANAGER_PUBLISH_STAGE" -c user.name="$MANAGER_ACCOUNT" \
   -c user.email="$MANAGER_ACCOUNT@users.noreply.github.com" \
-  commit -m 'Release MultiCodex macOS account manager with documentation and build workflows'
+  commit -m 'Release CodexNeko macOS account manager with documentation and build workflows'
 if gh repo view "$MANAGER_REPO" --json nameWithOwner >/dev/null 2>&1; then
   echo "O repositório $MANAGER_REPO já existe. Nenhum conteúdo remoto foi substituído." >&2
   echo "Código preparado em: $MANAGER_PUBLISH_STAGE" >&2
@@ -33,7 +33,7 @@ fi
 gh repo create "$MANAGER_REPO" --public --source "$MANAGER_PUBLISH_STAGE" --remote origin --push \
   --description 'Gerenciador gratuito e open source de contas Codex para macOS. Adicione e abra perfis sem usar o Terminal.'
 gh repo edit "$MANAGER_REPO" --add-topic macos --add-topic swift --add-topic swiftui --add-topic codex --add-topic account-manager
-git -C "$MANAGER_PUBLISH_STAGE" tag -a "$MANAGER_TAG" -m 'MultiCodex 1.0.0 beta 3'
+git -C "$MANAGER_PUBLISH_STAGE" tag -a "$MANAGER_TAG" -m 'CodexNeko 1.0.0 beta 4'
 git -C "$MANAGER_PUBLISH_STAGE" push origin "$MANAGER_TAG"
 echo "Repositório público: https://github.com/$MANAGER_REPO"
 echo "O GitHub Actions vai compilar e disponibilizar os downloads em: https://github.com/$MANAGER_REPO/releases"

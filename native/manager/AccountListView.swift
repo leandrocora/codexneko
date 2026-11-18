@@ -110,7 +110,7 @@ struct AccountManagerView: View {
            let version = Bundle(path: path)?.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
             return description + " · Codex " + version
         }
-        return description + " · MultiCodex 1.0"
+        return description + " · CodexNeko 1.0"
     }
 
     private var header: some View {

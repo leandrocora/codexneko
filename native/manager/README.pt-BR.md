@@ -1,4 +1,4 @@
-# MultiCodex para macOS
+# CodexNeko para macOS
 
 Aplicativo nativo em português para adicionar e abrir contas do Codex sem
 usar comandos no Terminal. Requer macOS 13 ou posterior em Mac Apple Silicon
@@ -6,7 +6,7 @@ e o aplicativo oficial do Codex instalado.
 
 ## Uso
 
-1. Abra `MultiCodex.app`. Você pode arrastá-lo para a pasta Aplicativos.
+1. Abra `CodexNeko.app`. Você pode arrastá-lo para a pasta Aplicativos.
 2. Os perfis existentes aparecem automaticamente.
 3. Clique em **Adicionar conta**, escolha um nome e uma cor e clique em
    **Criar e abrir**.
@@ -30,6 +30,11 @@ A preferência continua salva ao fechar o app e ao atualizar.
 Para atualizar, abra o novo instalador `.pkg`. Ele detecta a instalação em
 Aplicativos, atualiza o mesmo app e preserva contas e preferências. Instalações
 mais novas não são substituídas por versões antigas.
+
+Instalações anteriores com o nome MultiCodex também são reconhecidas pelo
+`.pkg`. Depois de validar o CodexNeko instalado, o instalador guarda o app
+anterior em `/Library/Application Support/CodexNeko/Previous Versions/`.
+Os dados das contas e a preferência do mascote continuam nos mesmos locais.
 
 **Como funciona → Manutenção** oferece verificação e reparo da instalação.
 Os nomes informados no gerenciador são apelidos locais, não endereços de login.
@@ -61,7 +66,7 @@ O script executa os testes do gerenciador com dados sintéticos em pasta
 temporária. Também é possível rodá-los com:
 
 ```sh
-dist/MultiCodex.app/Contents/MacOS/MultiCodex --self-test
+dist/CodexNeko.app/Contents/MacOS/CodexNeko --self-test
 ```
 
 O gerenciamento é uma interface para `am-will/multi-codex-app v0.2.1`, sob MIT.

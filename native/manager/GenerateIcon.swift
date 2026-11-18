@@ -44,5 +44,5 @@ var contents = Data()
 for (name, type) in iconEntries {
     contents.append(sizedBlock(type, try Data(contentsOf: output.appendingPathComponent(name + ".png"))))
 }
-let iconURL = CommandLine.arguments.count > 2 ? URL(fileURLWithPath: CommandLine.arguments[2]) : output.deletingLastPathComponent().appendingPathComponent("MultiCodex.icns")
+let iconURL = CommandLine.arguments.count > 2 ? URL(fileURLWithPath: CommandLine.arguments[2]) : output.deletingLastPathComponent().appendingPathComponent("CodexNeko.icns")
 try sizedBlock("icns", contents).write(to: iconURL)

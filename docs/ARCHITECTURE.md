@@ -40,8 +40,17 @@ encaminhar conexões para a janela escolhida.
 
 O build incorpora apenas executáveis, ícones e avisos de licença. Os perfis
 ficam fora do `.app`. O ZIP preserva o pacote e os modos de execução. O PKG
-tem como destino `/Applications/MultiCodex.app` e não inclui scripts de remoção
+tem como destino `/Applications/CodexNeko.app` e não inclui scripts de remoção
 ou migração de contas.
+
+O identificador do bundle, o identificador do pacote, o nome salvo da janela
+e o diretório de perfis continuam compatíveis com as primeiras versões.
+Esses identificadores internos não são o nome exibido do produto.
+O preflight verifica os caminhos `CodexNeko.app` e `MultiCodex.app` e bloqueia
+qualquer downgrade. Depois da instalação, o postinstall verifica a identidade,
+a versão e a assinatura da nova cópia antes de mover o bundle antigo para um
+backup em `/Library/Application Support/CodexNeko/Previous Versions/`.
+As pastas de contas e preferências não são movidas nem regravadas.
 
 Os workflows usam runners macOS Apple Silicon para build e testes; apenas o
 job de publicação da release recebe permissão de escrita no conteúdo do GitHub.

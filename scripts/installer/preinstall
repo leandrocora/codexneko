@@ -1,54 +1,20 @@
 #!/bin/bash
-# Read-only preflight. The macOS Installer performs the bundle replacement.
+# Read-only preflight. Validate both current and former app names.
 set -euo pipefail
 MANAGER_SCRIPT_ROOT="$(cd "$(dirname "$0")" && pwd)"
-MANAGER_INCOMING_PLIST="$MANAGER_SCRIPT_ROOT/Version.plist"
-MANAGER_TARGET_VOLUME="${3:-/}"
-MANAGER_EXISTING_APP="${MANAGER_TARGET_VOLUME%/}/Applications/MultiCodex.app"
-MANAGER_BUNDLE_ID="com.coradini.multicodex.manager"
-
-manager_fail() {
-  printf 'MultiCodex: %s\n' "$1" >&2
-  exit 1
-}
-manager_read() {
-  /usr/libexec/PlistBuddy -c "Print :$2" "$1" 2>/dev/null
-}
-manager_numeric_version() {
-  [[ "$1" =~ ^[0-9]+(\.[0-9]+)*$ ]]
-}
-manager_compare() {
-  /usr/bin/awk -v left="$1" -v right="$2" 'BEGIN {
-    nl=split(left,l,"."); nr=split(right,r,"."); n=nl>nr?nl:nr;
-    for(i=1;i<=n;i++){a=l[i]+0;b=r[i]+0;if(a>b){print 1;exit}if(a<b){print -1;exit}}
-    print 0
-  }'
-}
-
-[[ "$MANAGER_TARGET_VOLUME" == /* && -d "$MANAGER_TARGET_VOLUME" ]] || manager_fail 'Volume de instalação inválido.'
-MANAGER_NEW_VERSION="$(manager_read "$MANAGER_INCOMING_PLIST" CFBundleShortVersionString)" || manager_fail 'Pacote incompleto: falta a versão de destino.'
-MANAGER_NEW_BUILD="$(manager_read "$MANAGER_INCOMING_PLIST" CFBundleVersion)" || manager_fail 'Pacote incompleto: falta o número do build.'
-manager_numeric_version "$MANAGER_NEW_VERSION" && manager_numeric_version "$MANAGER_NEW_BUILD" || manager_fail 'Metadados de versão inválidos no pacote.'
-
-if [[ ! -e "$MANAGER_EXISTING_APP" && ! -L "$MANAGER_EXISTING_APP" ]]; then
-  printf 'MultiCodex: nova instalação %s (build %s) em Aplicativos.\n' "$MANAGER_NEW_VERSION" "$MANAGER_NEW_BUILD"
-  exit 0
+source "$MANAGER_SCRIPT_ROOT/common.sh"
+manager_initialize "${3:-/}"
+MANAGER_FOUND=0
+for MANAGER_EXISTING_APP in "$MANAGER_CURRENT_APP" "$MANAGER_LEGACY_APP"; do
+  if [[ ! -e "$MANAGER_EXISTING_APP" && ! -L "$MANAGER_EXISTING_APP" ]]; then continue; fi
+  manager_check_app "$MANAGER_EXISTING_APP"
+  MANAGER_FOUND=1
+  if [[ "$MANAGER_OLD_VERSION" == "$MANAGER_NEW_VERSION" && "$MANAGER_OLD_BUILD" == "$MANAGER_NEW_BUILD" ]]; then
+    printf 'CodexNeko: reinstalando %s (build %s), mantendo contas e preferências.\n' "$MANAGER_NEW_VERSION" "$MANAGER_NEW_BUILD"
+  else
+    printf 'CodexNeko: atualização detectada: %s (build %s) → %s (build %s).\n' "$MANAGER_OLD_VERSION" "$MANAGER_OLD_BUILD" "$MANAGER_NEW_VERSION" "$MANAGER_NEW_BUILD"
+  fi
+done
+if [[ "$MANAGER_FOUND" == 0 ]]; then
+  printf 'CodexNeko: nova instalação %s (build %s) em Aplicativos.\n' "$MANAGER_NEW_VERSION" "$MANAGER_NEW_BUILD"
 fi
-[[ ! -L "$MANAGER_EXISTING_APP" && -d "$MANAGER_EXISTING_APP" ]] || manager_fail 'O destino não é um aplicativo válido. A instalação existente foi preservada.'
-MANAGER_OLD_PLIST="$MANAGER_EXISTING_APP/Contents/Info.plist"
-MANAGER_OLD_ID="$(manager_read "$MANAGER_OLD_PLIST" CFBundleIdentifier)" || manager_fail 'Não foi possível identificar o aplicativo existente.'
-[[ "$MANAGER_OLD_ID" == "$MANAGER_BUNDLE_ID" ]] || manager_fail 'Outro aplicativo ocupa o destino MultiCodex.app. Ele não será substituído.'
-MANAGER_OLD_VERSION="$(manager_read "$MANAGER_OLD_PLIST" CFBundleShortVersionString)" || manager_fail 'A versão instalada não pôde ser lida.'
-MANAGER_OLD_BUILD="$(manager_read "$MANAGER_OLD_PLIST" CFBundleVersion)" || manager_fail 'O build instalado não pôde ser lido.'
-manager_numeric_version "$MANAGER_OLD_VERSION" && manager_numeric_version "$MANAGER_OLD_BUILD" || manager_fail 'A versão instalada tem metadados inválidos. Nenhum dado foi alterado.'
-MANAGER_VERSION_ORDER="$(manager_compare "$MANAGER_OLD_VERSION" "$MANAGER_NEW_VERSION")"
-MANAGER_BUILD_ORDER="$(manager_compare "$MANAGER_OLD_BUILD" "$MANAGER_NEW_BUILD")"
-if [[ "$MANAGER_VERSION_ORDER" == 1 || ( "$MANAGER_VERSION_ORDER" == 0 && "$MANAGER_BUILD_ORDER" == 1 ) ]]; then
-  manager_fail "Já existe uma versão mais nova: $MANAGER_OLD_VERSION (build $MANAGER_OLD_BUILD). A instalação foi cancelada para preservar essa versão."
-fi
-if [[ "$MANAGER_VERSION_ORDER" == 0 && "$MANAGER_BUILD_ORDER" == 0 ]]; then
-  printf 'MultiCodex: reinstalando %s (build %s), mantendo contas e preferências.\n' "$MANAGER_NEW_VERSION" "$MANAGER_NEW_BUILD"
-else
-  printf 'MultiCodex: atualização detectada: %s (build %s) → %s (build %s).\n' "$MANAGER_OLD_VERSION" "$MANAGER_OLD_BUILD" "$MANAGER_NEW_VERSION" "$MANAGER_NEW_BUILD"
-fi
-exit 0

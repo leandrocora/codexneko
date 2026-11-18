@@ -51,7 +51,7 @@ for (x, ink) in [(60, UInt32(0xFF5F57)), (90, UInt32(0xFFBD2E)), (120, UInt32(0x
     box(CGFloat(x - 9), 45, 18, 18, 9, ink)
 }
 text("Contas Codex", 67, 110, 38, .bold)
-text("3 contas · MultiCodex 1.0", 67, 157, 18, .regular, 0x9BA2B0)
+text("3 contas · CodexNeko 1.0", 67, 157, 18, .regular, 0x9BA2B0)
 box(667, 114, 246, 52, 26, 0x2386FF)
 text("+", 690, 123, 27, .regular)
 text("Adicionar conta", 724, 129, 20, .medium)

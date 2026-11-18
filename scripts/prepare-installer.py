@@ -24,16 +24,16 @@ def main():
     scripts = workspace / "Scripts"
     if not args.finalize:
         scripts.mkdir(exist_ok=True)
-        preinstall = Path(__file__).parent / "installer/preinstall"
-        shutil.copy2(preinstall, scripts / "preinstall")
-        (scripts / "preinstall").chmod(0o755)
+        for name in ["preinstall", "postinstall", "common.sh"]:
+            shutil.copy2(Path(__file__).parent / "installer" / name, scripts / name)
+            (scripts / name).chmod(0o755 if name != "common.sh" else 0o644)
         (scripts / "Version.plist").write_bytes(plistlib.dumps({
             "CFBundleShortVersionString": version, "CFBundleVersion": build,
         }))
         (workspace / "Requirements.plist").write_bytes(plistlib.dumps({"arch": ["arm64"], "os": ["13.0"]}))
         (workspace / "PackageVersion.txt").write_text(version + "." + build)
         return
-    component = workspace / "MultiCodexComponent.pkg"
+    component = workspace / "CodexNekoComponent.pkg"
     distribution = workspace / "Distribution.xml"
     subprocess.run(["/usr/bin/productbuild", "--synthesize", "--product", str(workspace / "Requirements.plist"),
                     "--package", str(component), str(distribution)], check=True)
@@ -42,7 +42,7 @@ def main():
     title = root.find("title")
     if title is None:
         title = ET.SubElement(root, "title")
-    title.text = "MultiCodex — Instalação e atualização"
+    title.text = "CodexNeko — Instalação e atualização"
     domains = root.find("domains")
     if domains is None:
         domains = ET.SubElement(root, "domains")

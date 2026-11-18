@@ -6,16 +6,19 @@
 gerenciador, usando perfis sintéticos e pastas temporárias. A assinatura local
 e o `Info.plist` também são verificados.
 
-`bash scripts/package-macos-manager.sh` executa também os 9 testes do
+`bash scripts/package-macos-manager.sh` executa também os 22 testes do
 instalador em volumes temporários: instalação nova, atualização de build e
 versão, reinstalação, bloqueio de downgrade, destino de outro aplicativo,
 link simbólico e metadados inválidos. Os testes verificam que os dados
 sintéticos das contas e a preferência do mascote permanecem intactos.
+Os cenários de migração cobrem o reconhecimento do nome anterior, a validação
+da assinatura da nova cópia, o backup do app antigo, falhas que preservam a
+instalação anterior e a execução repetida sem duplicar backups.
 
 Para repetir somente os testes:
 
 ```sh
-dist/MultiCodex.app/Contents/MacOS/MultiCodex --self-test
+dist/CodexNeko.app/Contents/MacOS/CodexNeko --self-test
 ```
 
 O empacotamento gera um ZIP, um PKG e hashes SHA-256. A validação dos testes

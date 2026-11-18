@@ -1,0 +1,35 @@
+#!/bin/bash
+# Archive the former app only after the new signed bundle is installed.
+# Profile data and preferences are outside these bundles and are never touched.
+set -euo pipefail
+MANAGER_SCRIPT_ROOT="$(cd "$(dirname "$0")" && pwd)"
+source "$MANAGER_SCRIPT_ROOT/common.sh"
+manager_initialize "${3:-/}"
+if [[ ! -e "$MANAGER_LEGACY_APP" && ! -L "$MANAGER_LEGACY_APP" ]]; then exit 0; fi
+manager_check_app "$MANAGER_CURRENT_APP"
+[[ "$MANAGER_OLD_VERSION" == "$MANAGER_NEW_VERSION" && "$MANAGER_OLD_BUILD" == "$MANAGER_NEW_BUILD" ]] || manager_fail 'A nova versão não foi instalada por completo. O aplicativo anterior foi preservado.'
+/usr/bin/codesign --verify --deep --strict "$MANAGER_CURRENT_APP" || manager_fail 'A assinatura da nova versão não pôde ser validada. O aplicativo anterior foi preservado.'
+manager_check_app "$MANAGER_LEGACY_APP"
+MANAGER_BACKUP_PARENT="$MANAGER_VOLUME_ROOT/Library/Application Support/CodexNeko"
+MANAGER_BACKUP_ROOT="$MANAGER_BACKUP_PARENT/Previous Versions"
+MANAGER_INSTALL_UID="$(/usr/bin/id -u)"
+for MANAGER_DIRECTORY in "$MANAGER_VOLUME_ROOT/Library" "$MANAGER_VOLUME_ROOT/Library/Application Support" "$MANAGER_BACKUP_PARENT" "$MANAGER_BACKUP_ROOT"; do
+  [[ ! -L "$MANAGER_DIRECTORY" ]] || manager_fail 'O destino do backup é um link simbólico. O aplicativo anterior foi preservado.'
+  if [[ -e "$MANAGER_DIRECTORY" ]]; then
+    [[ -d "$MANAGER_DIRECTORY" ]] || manager_fail 'O destino do backup não é uma pasta. O aplicativo anterior foi preservado.'
+  fi
+done
+for MANAGER_DIRECTORY in "$MANAGER_BACKUP_PARENT" "$MANAGER_BACKUP_ROOT"; do
+  if [[ -e "$MANAGER_DIRECTORY" ]]; then
+    [[ "$(/usr/bin/stat -f %u "$MANAGER_DIRECTORY")" == "$MANAGER_INSTALL_UID" ]] || manager_fail 'O destino do backup tem um proprietário inesperado. O aplicativo anterior foi preservado.'
+    MANAGER_DIRECTORY_MODE="$(/usr/bin/stat -f %Lp "$MANAGER_DIRECTORY")"
+    (( (8#$MANAGER_DIRECTORY_MODE & 0022) == 0 )) || manager_fail 'O destino do backup permite alterações por outros usuários. O aplicativo anterior foi preservado.'
+  fi
+done
+/bin/mkdir -p -m 755 "$MANAGER_BACKUP_ROOT"
+MANAGER_BACKUP="$(/usr/bin/mktemp -d "$MANAGER_BACKUP_ROOT/previous-$MANAGER_OLD_VERSION-$MANAGER_OLD_BUILD-XXXXXX")"
+if ! /bin/mv "$MANAGER_LEGACY_APP" "$MANAGER_BACKUP/MultiCodex.app"; then
+  /bin/rmdir "$MANAGER_BACKUP" 2>/dev/null || true
+  manager_fail 'Não foi possível guardar o aplicativo anterior. Suas contas não foram alteradas.'
+fi
+printf 'CodexNeko: versão anterior guardada em %s. Contas e preferências preservadas.\n' "$MANAGER_BACKUP"

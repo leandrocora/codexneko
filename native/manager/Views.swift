@@ -132,9 +132,9 @@ struct HelpView: View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Uma conta em cada janela.").font(.system(size: 25, weight: .semibold)).tracking(-0.6)
             instruction("1", "Adicione uma conta", "Clique em Adicionar conta, escolha um nome e uma cor e confirme em Criar e abrir.")
-            instruction("2", "Entre na nova janela", "Use o login da outra conta no Codex. O MultiCodex não pede sua senha.")
+            instruction("2", "Entre na nova janela", "Use o login da outra conta no Codex. O CodexNeko não pede sua senha.")
             instruction("3", "Abra quando precisar", "Volte aqui e clique em Abrir ou Mostrar. As janelas podem ficar abertas ao mesmo tempo.")
-            Text("Os perfis existentes são reconhecidos automaticamente. Fechar o MultiCodex não fecha suas janelas do Codex.")
+            Text("Os perfis existentes são reconhecidos automaticamente. Fechar o CodexNeko não fecha suas janelas do Codex.")
                 .font(.system(size: 12)).foregroundColor(.secondary).lineSpacing(3).fixedSize(horizontal: false, vertical: true)
             Divider()
             HStack {
